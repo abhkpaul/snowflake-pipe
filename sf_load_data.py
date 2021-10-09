@@ -25,6 +25,9 @@ if __name__ == "__main__":
     sf_warehouse = configs.get("sf_warehouse").data
     sf_database = configs.get("sf_database").data
     sf_schema = configs.get("sf_schema").data
+    source_csv = configs.get("csv_location").data
+    stage_name = configs.get("sf_stage_name").data
+    pipe_name = configs.get("sf_stage_name").data
 
     cursr = get_snowflake_conn(userName=sf_user,
                                password=sf_pass,
@@ -32,11 +35,10 @@ if __name__ == "__main__":
                                warehouseName=sf_warehouse,
                                databaseName=sf_database,
                                schemaName=sf_schema)
-    source_csv = '<path_to_csv_file>'
-    stage_name = '<stage_name>'
-    pipe_name = '<pipe_name>'
+
     sql_stmts = [[
         "PUT file://" + source_csv + " @" + stage_name + " auto_compress=true",
         "alter pipe " + pipe_name + " refresh"
     ]]
+
     from_csv_to_sf(cursr, sql_stmts)
