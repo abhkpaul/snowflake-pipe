@@ -1,0 +1,2 @@
+jproperties~=2.1.1
+snowflake-connector-python~=2.2.10
